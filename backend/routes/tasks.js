@@ -20,13 +20,18 @@ router.post(
 
     const { title, description, status, dueDate } = req.body;
 
+    let dueDateFixed = dueDate ? new Date(dueDate) : undefined;
+    if (dueDateFixed) {
+      dueDateFixed.setHours(12, 0, 0, 0); // Fija la hora a 12:00 para evitar desplazamiento
+    }
+
     try {
       // Nueva tarea inicia en "pendiente" sin importar lo que envíen
       const task = new Task({
         title,
         description,
         status: 'pendiente',
-        dueDate,
+        dueDate: dueDateFixed,
         user: req.user.id,
       });
 
@@ -84,6 +89,11 @@ router.get('/:id', auth, async (req, res) => {
 // Actualizar tarea
 router.put('/:id', auth, async (req, res) => {
   const { title, description, status, dueDate } = req.body;
+  let dueDateFixed = dueDate ? new Date(dueDate) : undefined;
+  if (dueDateFixed) {
+      dueDateFixed.setHours(12, 0, 0, 0); // Fija la hora a 12:00 para evitar desplazamiento
+  }
+
 
   try {
     let task = await Task.findOne({ _id: req.params.id, user: req.user.id });
@@ -109,7 +119,7 @@ router.put('/:id', auth, async (req, res) => {
     if (title) task.title = title;
     if (description !== undefined) task.description = description;
     if (status) task.status = status;
-    if (dueDate) task.dueDate = dueDate;
+    if (dueDate) task.dueDate = dueDateFixed;
 
     await task.save();
     res.json({ message: 'Tarea actualizada', task });
@@ -132,10 +142,10 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(400).json({ msg: 'Solo se pueden eliminar tareas completadas' });
     }
 
-    await Task.findByIdAndDelete(id);
+    await Task.findByIdAndDelete(req.params.id);
     res.json({ message: 'Tarea eliminada' });
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
     if (err.kind === 'ObjectId') return res.status(404).json({ msg: 'Tarea no encontrada' });
     res.status(500).send('Error en el servidor');
   }
