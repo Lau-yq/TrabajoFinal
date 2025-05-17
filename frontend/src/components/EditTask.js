@@ -51,7 +51,7 @@ const EditTask = ({ task, onClose, onTaskUpdated }) => {
         dueDate: dueDate ? new Date(dueDate).toISOString() : null,
       };
 
-      await axios.put(`/api/tasks/${task._id}`, updatedTask, {
+      await axios.put(`https://trabajofinal-3wto.onrender.com/api/tasks/${task._id}`, updatedTask, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

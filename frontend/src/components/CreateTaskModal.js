@@ -32,7 +32,7 @@ const CreateTaskModal = ({ isOpen, onClose, onTaskCreated }) => {
         dueDate: dueDate ? new Date(dueDate + 'T12:00:00').toISOString() : undefined,
       };
 
-      await axios.post('/api/tasks', taskData, {
+      await axios.post('https://trabajofinal-3wto.onrender.com/api/tasks', taskData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

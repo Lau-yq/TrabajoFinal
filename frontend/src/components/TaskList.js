@@ -17,7 +17,7 @@ const TaskList = ({ refresh }) => {
     if (!token) return;
 
     axios
-      .get('/api/tasks', { headers: { Authorization: `Bearer ${token}` } })
+      .get('https://trabajofinal-3wto.onrender.com/api/tasks', { headers: { Authorization: `Bearer ${token}` } })
       .then(res => setTasks(res.data))
       .catch(err => console.error(err));
   }, [token]);
@@ -31,7 +31,7 @@ const TaskList = ({ refresh }) => {
     if (!window.confirm(`¿Seguro que quieres eliminar la tarea "${task.title}"?`)) return;
 
     try {
-      await axios.delete(`/api/tasks/${task._id}`, {
+      await axios.delete(`https://trabajofinal-3wto.onrender.com/api/tasks/${task._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchTasks(); // Refresca la lista tras eliminar
@@ -124,7 +124,7 @@ const TaskList = ({ refresh }) => {
             onTaskUpdated={fetchTasks}
             onComplete={async (task) => {
               try {
-                await axios.put(`/api/tasks/${task._id}`, { status: 'completada' }, {
+                await axios.put(`https://trabajofinal-3wto.onrender.com/api/tasks/${task._id}`, { status: 'completada' }, {
                   headers: { Authorization: `Bearer ${token}` },
                 });
                 fetchTasks();

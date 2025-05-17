@@ -13,7 +13,7 @@ const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await axios.post('https://trabajofinal-3wto.onrender.com/api/auth/login', { email, password });
       login(res.data.token);
       navigate('/dashboard');
     } catch (err) {

@@ -24,7 +24,7 @@ const Register = () => {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('/api/auth/register', { name, email, password });
+      const res = await axios.post('https://trabajofinal-3wto.onrender.com/api/auth/register', { name, email, password });
       login(res.data.token); // Guardar token y actualizar contexto
       navigate('/dashboard'); // Redirigir al dashboard
     } catch (err) {
